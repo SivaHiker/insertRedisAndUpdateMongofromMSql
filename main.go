@@ -65,7 +65,7 @@ func workerPool() {
 		case item,ok := <-jobs:
 			if ok {
 				fmt.Println(item.UserData.UID)
-				rows2,err1 := dbConn.Query("select * from platform_user where  hike_uid = ("+item.UserData.UID+")")
+				rows2,err1 := dbConn.Query("select * from platform_user where  hike_uid = '"+item.UserData.UID+"'")
 				if(err1!=nil){
 					fmt.Println(err1)
 				}
@@ -75,8 +75,8 @@ func workerPool() {
 					if(err!=nil) {
 						fmt.Println(err.Error())
 					}
-					updateerr := c.Update(item, bson.M{"$set": bson.M{"platformuid": user.PlatformUID}})
-					updateerr2 := c.Update(item, bson.M{"$set": bson.M{"platformtoken": user.PlatformToken}})
+					updateerr := c.Update(item, bson.M{"$set": bson.M{"userdata.platformuid": user.PlatformUID}})
+					updateerr2 := c.Update(item, bson.M{"$set": bson.M{"userdata.platformtoken": user.PlatformToken}})
 					fmt.Println(updateerr)
 					fmt.Println(updateerr2)
 					counter++
