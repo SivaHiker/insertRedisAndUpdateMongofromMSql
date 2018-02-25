@@ -28,7 +28,7 @@ func main() {
 	}
 	defer session.Close()
 
-	c = session.DB("userlist").C("experitestdata")
+	c = session.DB("userlist").C("newuserdata")
 	fmt.Println(c.Name)
 
 	//MySql DB Connection
@@ -75,12 +75,14 @@ func workerPool() {
 					if(err!=nil) {
 						fmt.Println(err.Error())
 					}
-					updateerr := c.Update(item, bson.M{"$set": bson.M{"userdata.platformuid": user.PlatformUID}})
+					//updateerr := c.Update(item, bson.M{"$set": bson.M{"userdata.platformuid": user.PlatformUID}})
+					fmt.Println(user.PlatformToken)
 					updateerr2 := c.Update(item, bson.M{"$set": bson.M{"userdata.platformtoken": user.PlatformToken}})
-					fmt.Println(updateerr)
+					//fmt.Println(updateerr)
 					fmt.Println(updateerr2)
 					counter++
 					fmt.Println("Migrated records till now --- >", counter)
+					rows2.Close()
 				}
 			}
 		case <-done:
